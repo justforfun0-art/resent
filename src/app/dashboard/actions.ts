@@ -612,9 +612,34 @@ function smtpRowFromForm(
 export async function saveSmtpConfig(formData: FormData) {
   const { supabase, user } = await requireUser();
   const client = await requireClient();
-  const row = smtpRowFromForm(formData, user.id, client.id);
+  const { password: rawPassword, ...row } = smtpRowFromForm(
+    formData,
+    user.id,
+    client.id
+  );
+
+  // A blank password means "keep the existing one" — never overwrite the stored
+  // (encrypted) value with an empty string, and never re-encrypt ciphertext.
+  // Other fields still update.
+  if (!rawPassword) {
+    const { data: existing } = await supabase
+      .from("smtp_configs")
+      .select("id")
+      .eq("client_id", client.id)
+      .maybeSingle();
+    if (!existing)
+      throw new Error("Enter a password to save SMTP settings the first time.");
+    const { error } = await supabase
+      .from("smtp_configs")
+      .update(row)
+      .eq("client_id", client.id);
+    if (error) throw new Error(error.message);
+    revalidatePath("/dashboard/settings");
+    return;
+  }
+
   // Encrypt the password at rest when ENCRYPTION_KEY is configured.
-  const { password, encrypted } = encryptPassword(row.password);
+  const { password, encrypted } = encryptPassword(rawPassword);
   const { error } = await supabase
     .from("smtp_configs")
     .upsert(

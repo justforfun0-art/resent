@@ -92,9 +92,9 @@ export default function SmtpForm({ cfg }: { cfg: Config }) {
         <input
           name="password"
           type="password"
-          required
-          defaultValue={cfg?.password}
-          placeholder={cfg ? "••••••••" : "16-char Gmail app password"}
+          required={!cfg}
+          autoComplete="new-password"
+          placeholder={cfg ? "Leave blank to keep current password" : "16-char app password"}
           className="field"
         />
         <p className="text-xs text-neutral-500 mt-1">
