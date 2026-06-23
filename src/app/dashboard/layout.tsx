@@ -18,6 +18,7 @@ const nav = [
   { href: "/dashboard/suppressions", label: "Suppressions", icon: "ban" },
   { href: "/dashboard/team", label: "Team", icon: "users" },
   { href: "/dashboard/settings", label: "SMTP Settings", icon: "cog" },
+  { href: "/dashboard/docs", label: "Integration Guide", icon: "book" },
 ] as const;
 
 export default async function DashboardLayout({

@@ -92,6 +92,15 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M5.6 5.6l12.8 12.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </>
   ),
+  book: (
+    <path
+      d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V4a1 1 0 00-1-1H6.5A2.5 2.5 0 004 5.5v14z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  ),
   cog: (
     <>
       <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" />
